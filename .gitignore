@@ -1,0 +1,26 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Model weights remain out of git. Demo inputs and generated outputs are
+# committed for review; large binary formats are stored through Git LFS.
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+outputs/kitchen_small_room_vggt_omega_1b_512/visceral_demo.mp4
+
+# Heavy / regenerable artifacts kept out of the repo (regenerate with the scripts):
+# COLMAP workspace (~1.2 GB of dense MVS depth maps), browser-player point bins, hero video.
+outputs/kitchen_small_room_vggt_omega_1b_512/colmap/
+outputs/kitchen_small_room_vggt_omega_1b_512/reconstruction_player_flythrough.html
+outputs/kitchen_small_room_vggt_omega_1b_512/reconstruction_player_flythrough_data/
+outputs/kitchen_small_room_vggt_omega_1b_512/readme_hero_full_ply.mp4
+outputs/kitchen_small_room_vggt_omega_1b_512/_smoke/
+
+# ScanNet RGB-D data and ScanNet-derived frames/clouds are NOT redistributed (ScanNet ToU).
+# Obtain ScanNet separately; only aggregate evaluation metrics appear in the README.
+data/scannet_scene0000_00/
+outputs/scannet_scene0000_00_vggt_omega_1b_512/

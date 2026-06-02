@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VGGT-Style Reconstruction Player</title>
+  <style>
+    html, body { margin: 0; min-height: 100%; background: #101010; color: #f4f4f4; font-family: Inter, system-ui, sans-serif; }
+    body { overflow: hidden; }
+    #app { position: fixed; inset: 0; display: grid; grid-template-columns: minmax(270px, 28vw) 1fr; gap: 0; }
+    #input { padding: 18px; border-right: 1px solid #333; background: #151515; display: flex; flex-direction: column; min-width: 0; }
+    #input h1, #scene h2 { margin: 0 0 8px; font-size: 18px; font-weight: 700; }
+    #input p, #scene p { margin: 0; color: #bdbdbd; font-size: 13px; }
+    #frame { width: 100%; flex: 1; min-height: 0; margin-top: 18px; object-fit: contain; background: #050505; border: 1px solid #333; }
+    #scene { position: relative; min-width: 0; }
+    #scene-title { position: absolute; top: 18px; left: 20px; z-index: 2; }
+    #three { position: absolute; inset: 0; }
+    #hud { position: absolute; left: 20px; right: 20px; bottom: 18px; z-index: 2; display: grid; grid-template-columns: 1fr auto auto; gap: 14px; align-items: center; }
+    #bar { height: 4px; background: #333; overflow: hidden; }
+    #fill { height: 100%; width: 0%; background: #64d892; }
+    #scrub { width: 100%; accent-color: #64d892; }
+    button { color: #f4f4f4; background: #242424; border: 1px solid #555; padding: 8px 12px; cursor: pointer; }
+    button:hover { background: #303030; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <section id="input">
+      <h1>Input Video</h1>
+      <p>Selected key frames from the video.</p>
+      <img id="frame" src="" alt="current input frame">
+    </section>
+    <section id="scene">
+      <div id="scene-title">
+        <h2>Reconstruction</h2>
+        <p>Doorway view from the room entrance; points are fused only up to the current video frame.</p>
+      </div>
+      <div id="three"></div>
+      <div id="hud">
+        <div><input id="scrub" type="range" min="0" value="0" step="1"><div id="bar"><div id="fill"></div></div></div>
+        <button id="reset">Reset View</button>
+        <button id="toggle">Pause</button>
+      </div>
+    </section>
+  </div>
+  <script type="importmap">
+    {"imports": {"three": "https://unpkg.com/three@0.160.0/build/three.module.js"}}
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+
+    const meta = await fetch('reconstruction_player_data/metadata.json').then(r => r.json());
+    const raw = await fetch(meta.points_bin).then(r => r.arrayBuffer());
+    const packed = new Float32Array(raw);
+    const positions = new Float32Array(meta.num_points * 3);
+    const colors = new Float32Array(meta.num_points * 3);
+    for (let i = 0; i < meta.num_points; i++) {
+      positions.set(packed.subarray(i * 7, i * 7 + 3), i * 3);
+      colors.set(packed.subarray(i * 7 + 3, i * 7 + 6), i * 3);
+    }
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x101010);
+    const camera = new THREE.PerspectiveCamera(55, 1, 0.01, 100);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    document.getElementById('three').appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.enablePan = false;
+    const b0 = new THREE.Vector3(...meta.bounds_min);
+    const b1 = new THREE.Vector3(...meta.bounds_max);
+    const center = new THREE.Vector3(...meta.scene_center);
+    const radius = Math.max(0.4, meta.scene_radius || b0.distanceTo(b1) * 0.55);
+    const worldUp = new THREE.Vector3(...meta.world_up).normalize();
+    const entranceRight = new THREE.Vector3(...meta.entrance_right).normalize();
+    const entranceUp = new THREE.Vector3(...meta.entrance_up).normalize();
+    const entranceForward = new THREE.Vector3(...meta.entrance_forward).normalize();
+    const centers = meta.camera_centers.map(p => new THREE.Vector3(...p));
+    const entranceTarget = center.clone().addScaledVector(entranceUp, radius * 0.04);
+    const entranceEye = centers[0].clone()
+      .addScaledVector(entranceForward, -radius * 0.88)
+      .addScaledVector(entranceUp, radius * 0.18);
+    const pointSize = Math.max(0.0025, Math.min(0.012, radius * 0.0065));
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    geometry.setDrawRange(0, 0);
+    const cloud = new THREE.Points(geometry, new THREE.PointsMaterial({ size: pointSize, vertexColors: true }));
+    scene.add(cloud);
+
+    const freshGeometry = new THREE.BufferGeometry();
+    freshGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    freshGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    freshGeometry.setDrawRange(0, 0);
+    const freshCloud = new THREE.Points(
+      freshGeometry,
+      new THREE.PointsMaterial({ size: pointSize * 1.75, vertexColors: true, transparent: true, opacity: 0.96 })
+    );
+    scene.add(freshCloud);
+
+    const pathGeom = new THREE.BufferGeometry().setFromPoints(centers);
+    scene.add(new THREE.Line(pathGeom, new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.28 })));
+
+    const travelledPathGeom = new THREE.BufferGeometry().setFromPoints(centers);
+    travelledPathGeom.setDrawRange(0, 1);
+    scene.add(new THREE.Line(travelledPathGeom, new THREE.LineBasicMaterial({ color: 0x64d892, transparent: true, opacity: 0.95 })));
+
+    const currentFrustum = new THREE.LineSegments(
+      new THREE.BufferGeometry(),
+      new THREE.LineBasicMaterial({ color: 0x64d892 })
+    );
+    scene.add(currentFrustum);
+    scene.add(new THREE.AmbientLight(0xffffff, 1.0));
+
+    const frameImg = document.getElementById('frame');
+    const fill = document.getElementById('fill');
+    const toggle = document.getElementById('toggle');
+    const reset = document.getElementById('reset');
+    const scrub = document.getElementById('scrub');
+    scrub.max = String(Math.max(0, meta.num_frames - 1));
+    let playing = true;
+    let frameIdx = 0;
+    let last = performance.now();
+    let manualInspect = false;
+    toggle.onclick = () => {
+      if (!playing && frameIdx >= meta.num_frames - 1) {
+        setFrame(0, true);
+      }
+      playing = !playing;
+      toggle.textContent = playing ? 'Pause' : 'Play';
+    };
+    reset.onclick = () => {
+      manualInspect = false;
+      setFrame(frameIdx, true);
+    };
+    controls.addEventListener('start', () => {
+      manualInspect = true;
+    });
+    scrub.oninput = () => {
+      playing = false;
+      toggle.textContent = 'Play';
+      setFrame(Number(scrub.value), true);
+    };
+
+    function followCamera(idx, force = false) {
+      if (manualInspect && !force) return;
+      camera.up.copy(entranceUp);
+      camera.position.copy(entranceEye);
+      camera.lookAt(entranceTarget);
+      controls.target.copy(entranceTarget);
+    }
+
+    function setFrame(idx, forceCamera = false) {
+      frameIdx = Math.max(0, Math.min(meta.num_frames - 1, idx));
+      const drawCount = meta.cumulative[frameIdx];
+      const start = frameIdx > 0 ? meta.cumulative[frameIdx - 1] : 0;
+      geometry.setDrawRange(0, drawCount);
+      freshGeometry.setDrawRange(start, Math.max(0, drawCount - start));
+      travelledPathGeom.setDrawRange(0, frameIdx + 1);
+      frameImg.src = `${meta.frames_dir}/${String(frameIdx).padStart(6, '0')}.jpg`;
+      fill.style.width = `${100 * (frameIdx + 1) / meta.num_frames}%`;
+      scrub.value = String(frameIdx);
+      const segments = meta.camera_segments[frameIdx].flat(2);
+      currentFrustum.geometry.dispose();
+      currentFrustum.geometry = new THREE.BufferGeometry();
+      currentFrustum.geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(segments), 3));
+      followCamera(frameIdx, forceCamera);
+    }
+
+    function resize() {
+      const host = document.getElementById('three');
+      const w = host.clientWidth;
+      const h = host.clientHeight;
+      camera.aspect = w / Math.max(h, 1);
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    setFrame(0);
+
+    function animate(now) {
+      requestAnimationFrame(animate);
+      if (playing && now - last > 95) {
+        if (frameIdx >= meta.num_frames - 1) {
+          playing = false;
+          toggle.textContent = 'Replay';
+        } else {
+          setFrame(frameIdx + 1);
+        }
+        last = now;
+      }
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate(performance.now());
+  </script>
+</body>
+</html>

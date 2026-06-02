@@ -1,0 +1,85 @@
+{
+  "protocol": "leave-one-out: render each held-out camera from all OTHER frames' confidence-filtered points; compare to the real frame over covered pixels",
+  "num_views": 12,
+  "points_per_view_budget": 2500000,
+  "conf_percentile": 40.0,
+  "psnr_db_mean": 18.3,
+  "psnr_db_median": 17.86,
+  "ssim_mean": 0.423,
+  "ssim_median": 0.42,
+  "coverage_mean": 0.872,
+  "per_view": [
+    {
+      "frame": 0,
+      "coverage": 0.872,
+      "psnr_db": 16.83,
+      "ssim": 0.324
+    },
+    {
+      "frame": 7,
+      "coverage": 0.887,
+      "psnr_db": 20.25,
+      "ssim": 0.563
+    },
+    {
+      "frame": 14,
+      "coverage": 0.906,
+      "psnr_db": 16.76,
+      "ssim": 0.427
+    },
+    {
+      "frame": 21,
+      "coverage": 0.933,
+      "psnr_db": 17.32,
+      "ssim": 0.302
+    },
+    {
+      "frame": 28,
+      "coverage": 0.693,
+      "psnr_db": 19.28,
+      "ssim": 0.351
+    },
+    {
+      "frame": 35,
+      "coverage": 0.779,
+      "psnr_db": 16.51,
+      "ssim": 0.282
+    },
+    {
+      "frame": 43,
+      "coverage": 0.898,
+      "psnr_db": 19.62,
+      "ssim": 0.431
+    },
+    {
+      "frame": 50,
+      "coverage": 0.96,
+      "psnr_db": 20.13,
+      "ssim": 0.447
+    },
+    {
+      "frame": 57,
+      "coverage": 0.961,
+      "psnr_db": 17.02,
+      "ssim": 0.467
+    },
+    {
+      "frame": 64,
+      "coverage": 0.76,
+      "psnr_db": 20.23,
+      "ssim": 0.67
+    },
+    {
+      "frame": 71,
+      "coverage": 0.915,
+      "psnr_db": 17.32,
+      "ssim": 0.403
+    },
+    {
+      "frame": 79,
+      "coverage": 0.899,
+      "psnr_db": 18.39,
+      "ssim": 0.414
+    }
+  ]
+}

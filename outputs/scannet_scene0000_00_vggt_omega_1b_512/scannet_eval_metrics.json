@@ -1,0 +1,153 @@
+{
+  "dataset": "ScanNet scene0000_00",
+  "num_frames": 48,
+  "pose_vs_gt": {
+    "n_frames": 48,
+    "ate_rmse_m": 0.11047329795220408,
+    "ate_mean_m": 0.09971986612929645,
+    "ate_median_m": 0.09753797943603834,
+    "ate_max_m": 0.29042708122054184,
+    "rotation_mean_deg": 3.8824369881830876,
+    "rotation_median_deg": 3.9901460964395277,
+    "sim3_scale": 3.1964937572664036,
+    "sim3_rotation": [
+      [
+        -0.969332862670133,
+        0.11926942106691749,
+        -0.21486881240907837
+      ],
+      [
+        0.24456945060723942,
+        0.3825265339786647,
+        -0.8909877859050265
+      ],
+      [
+        -0.024074575331630464,
+        -0.9162140885189615,
+        -0.39996519701340255
+      ]
+    ],
+    "sim3_translation": [
+      2.675498414667542,
+      3.0059510925784125,
+      1.4076810425648634
+    ]
+  },
+  "reconstruction_vs_depth_fused_gt": {
+    "n_pred_eval": 200000,
+    "n_gt_eval": 200000,
+    "accuracy_mean_m": 0.0547227661508002,
+    "completeness_mean_m": 0.04838773687291489,
+    "chamfer_l1_m": 0.05155525151185754,
+    "chamfer_l2_m": 0.0628267484026187,
+    "precision@1cm": 0.036,
+    "recall@1cm": 0.03942,
+    "f1@1cm": 0.03763245823389022,
+    "precision@5cm": 0.54865,
+    "recall@5cm": 0.62738,
+    "f1@5cm": 0.5853796875930036,
+    "precision@10cm": 0.88231,
+    "recall@10cm": 0.923325,
+    "f1@10cm": 0.9023516721264264
+  },
+  "no_gt_coherence": {
+    "multi_view": {
+      "attempted_projections": 196500,
+      "valid_projected_depths": 31117,
+      "valid_projection_ratio": 0.1583562340966921,
+      "depth_rel_median": 0.016592538870526256,
+      "depth_rel_p90": 0.19405309286990363,
+      "depth_rel_under_5pct": 0.7764887360606743,
+      "depth_rel_under_10pct": 0.8441366455635183,
+      "color_l1_median_visible": 0.05751633644104004,
+      "color_l1_p90_visible": 0.2732026278972626
+    },
+    "feature_reprojection": {
+      "pairs_evaluated": 24,
+      "matches_evaluated": 1499,
+      "sampson_px_median": 1.8547356550365857,
+      "sampson_px_p90": 12.362430042875342,
+      "sampson_px_under_2": 0.5290193462308206,
+      "sampson_px_under_5": 0.7024683122081388
+    },
+    "plane_sanity": {
+      "planes_found": 5,
+      "scene_diag_world_units": 4.359277725219727,
+      "plane_distance_threshold_world_units": 0.04359277725219727,
+      "plane_residual_median_world_units": 0.018885382856613623,
+      "plane_residual_median_pct_scene_diag": 0.004332227503505003,
+      "orthogonality_angle_residual_median_deg": 2.358993732333719,
+      "planes": [
+        {
+          "inlier_count": 81229,
+          "residual_mean": 0.016297062501712103,
+          "residual_median": 0.013474256992573541,
+          "normal": [
+            0.024114767114527726,
+            0.9250220790544792,
+            0.37914724220115475
+          ]
+        },
+        {
+          "inlier_count": 65550,
+          "residual_mean": 0.02121442787961601,
+          "residual_median": 0.02089118089626009,
+          "normal": [
+            -0.062319788803942705,
+            0.9222827869355243,
+            0.38145865417614283
+          ]
+        },
+        {
+          "inlier_count": 40287,
+          "residual_mean": 0.01973333351768418,
+          "residual_median": 0.01896546675150959,
+          "normal": [
+            -0.08206646047585944,
+            0.920951607974098,
+            0.3809373069612473
+          ]
+        },
+        {
+          "inlier_count": 36750,
+          "residual_mean": 0.019115814983894704,
+          "residual_median": 0.017898353157554947,
+          "normal": [
+            -0.043723811604612216,
+            0.9262099105265232,
+            0.37446419046580975
+          ]
+        },
+        {
+          "inlier_count": 22982,
+          "residual_mean": 0.01927012869890546,
+          "residual_median": 0.018885382856613623,
+          "normal": [
+            -0.08445142608111228,
+            0.9185090236358958,
+            0.38627597664403085
+          ]
+        }
+      ]
+    },
+    "quality_gates": {
+      "multi_view_depth": "green",
+      "feature_reprojection": "green",
+      "plane_residual": "green",
+      "manhattan_orthogonality": "green",
+      "coherence_score_0_to_1": 1.0
+    },
+    "thresholds": {
+      "multi_view_depth_rel_median": "green < 0.05, yellow < 0.10",
+      "feature_sampson_px_median": "green < 2 px, yellow < 5 px",
+      "plane_residual_pct_scene_diag": "green < 1%, yellow < 2.5%",
+      "orthogonality_angle_residual_median": "green < 5 deg, yellow < 10 deg",
+      "note": "These are engineering gates, not universal benchmarks; thresholds should be tightened/loosened by scene scale and capture difficulty."
+    }
+  },
+  "notes": [
+    "Pose is Sim(3)-aligned before ATE because feed-forward monocular reconstruction has arbitrary global scale.",
+    "3D metrics compare VGGT points to a GT point cloud fused from ScanNet depth maps and GT poses for the same 48 frames.",
+    "This is an evidence run, not a leaderboard submission; frame sampling and GT construction differ from many published ScanNet tables."
+  ]
+}

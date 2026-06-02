@@ -1,0 +1,12 @@
+numpy<2
+Pillow
+opencv-python
+einops
+safetensors
+torch>=2.3
+torchvision>=0.18
+trimesh
+matplotlib
+scipy
+open3d
+transformers

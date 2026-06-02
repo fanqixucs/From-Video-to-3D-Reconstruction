@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Semantic 3D Labels</title>
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #111; color: #eee; font-family: system-ui, sans-serif; }
+    #viewer { position: fixed; inset: 0; }
+    #title { position: fixed; top: 16px; left: 18px; z-index: 2; }
+    #title h1 { margin: 0 0 4px; font-size: 18px; }
+    #title p { margin: 0; color: #bbb; font-size: 13px; }
+    #status { margin-top: 6px; color: #92d8ff; font-size: 12px; }
+    #legend { position: fixed; right: 16px; top: 16px; width: 260px; max-height: calc(100vh - 32px); overflow: auto; background: rgba(20,20,20,0.78); border: 1px solid #555; padding: 10px; z-index: 2; }
+    .row { display: grid; grid-template-columns: 16px 1fr auto; gap: 8px; align-items: center; font-size: 12px; margin: 6px 0; }
+    .swatch { width: 14px; height: 14px; border: 1px solid #ddd; }
+    .label { position: absolute; padding: 3px 6px; border-radius: 3px; color: #111; font-size: 12px; font-weight: 700; pointer-events: none; white-space: nowrap; transform: translate(-50%, -50%); box-shadow: 0 1px 4px rgba(0,0,0,0.45); }
+  </style>
+</head>
+<body>
+  <div id="viewer"></div>
+  <div id="title">
+    <h1>Semantic 3D Labels</h1>
+    <p>Labels are lifted through VGGT geometry; click/drag to inspect.</p>
+    <div id="status">Loading semantic point cloud...</div>
+  </div>
+  <div id="legend"></div>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+      }
+    }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+    import { PLYLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/PLYLoader.js';
+
+    const labels = [
+  {
+    "id": 1,
+    "name": "wall",
+    "position": [
+      -0.07440302520990372,
+      0.09426473081111908,
+      -0.5819624066352844
+    ],
+    "color": "rgb(183,189,196)",
+    "points": 250000
+  },
+  {
+    "id": 2,
+    "name": "bulletin board",
+    "position": [
+      -0.03723091632127762,
+      0.1857440024614334,
+      -0.8999518156051636
+    ],
+    "color": "rgb(220,121,67)",
+    "points": 250000
+  },
+  {
+    "id": 3,
+    "name": "cupboard",
+    "position": [
+      -0.2729615569114685,
+      0.1729634404182434,
+      -0.7332749366760254
+    ],
+    "color": "rgb(231,204,112)",
+    "points": 250000
+  },
+  {
+    "id": 4,
+    "name": "kettle",
+    "position": [
+      -0.3845389485359192,
+      -0.03229083493351936,
+      -1.0619518756866455
+    ],
+    "color": "rgb(80,88,98)",
+    "points": 78480
+  },
+  {
+    "id": 5,
+    "name": "tea box",
+    "position": [
+      -0.2126374989748001,
+      -0.0476260632276535,
+      -0.5289808511734009
+    ],
+    "color": "rgb(241,214,64)",
+    "points": 123502
+  },
+  {
+    "id": 6,
+    "name": "sanitizer",
+    "position": [
+      -0.26380646228790283,
+      0.0962224155664444,
+      -0.33807802200317383
+    ],
+    "color": "rgb(113,170,217)",
+    "points": 60120
+  },
+  {
+    "id": 7,
+    "name": "tissue box",
+    "position": [
+      -0.2708919942378998,
+      -0.027004674077033997,
+      -0.9069414138793945
+    ],
+    "color": "rgb(169,220,210)",
+    "points": 21812
+  },
+  {
+    "id": 8,
+    "name": "tap",
+    "position": [
+      -0.29541656374931335,
+      -0.08231348544359207,
+      -0.7985044717788696
+    ],
+    "color": "rgb(112,189,134)",
+    "points": 15406
+  },
+  {
+    "id": 9,
+    "name": "cleaning solution",
+    "position": [
+      -0.3154599666595459,
+      0.040172360837459564,
+      -1.1913995742797852
+    ],
+    "color": "rgb(105,190,110)",
+    "points": 237
+  },
+  {
+    "id": 10,
+    "name": "coffee machine",
+    "position": [
+      -0.2536388635635376,
+      -0.029876019805669785,
+      -0.7694789171218872
+    ],
+    "color": "rgb(62,70,82)",
+    "points": 250000
+  },
+  {
+    "id": 11,
+    "name": "microwave",
+    "position": [
+      -0.3397146165370941,
+      0.05071059986948967,
+      -0.95555579662323
+    ],
+    "color": "rgb(230,230,225)",
+    "points": 35111
+  },
+  {
+    "id": 12,
+    "name": "heater",
+    "position": [
+      -0.08062329143285751,
+      -0.10148127377033234,
+      -0.7990935444831848
+    ],
+    "color": "rgb(210,210,205)",
+    "points": 42192
+  },
+  {
+    "id": 13,
+    "name": "dust bin",
+    "position": [
+      -0.292538046836853,
+      -0.1566089391708374,
+      -0.9415271282196045
+    ],
+    "color": "rgb(137,214,70)",
+    "points": 212326
+  },
+  {
+    "id": 14,
+    "name": "sink",
+    "position": [
+      -0.280308336019516,
+      -0.02935008704662323,
+      -1.0500679016113281
+    ],
+    "color": "rgb(178,196,204)",
+    "points": 6276
+  },
+  {
+    "id": 15,
+    "name": "countertop",
+    "position": [
+      -0.2847471833229065,
+      -0.03495021164417267,
+      -0.885280191898346
+    ],
+    "color": "rgb(86,86,82)",
+    "points": 250000
+  },
+  {
+    "id": 16,
+    "name": "floor",
+    "position": [
+      -0.19653676450252533,
+      -0.31458258628845215,
+      -0.9333823919296265
+    ],
+    "color": "rgb(124,137,181)",
+    "points": 206627
+  },
+  {
+    "id": 17,
+    "name": "ceiling",
+    "position": [
+      -0.08922819048166275,
+      0.48813149333000183,
+      -0.7125639319419861
+    ],
+    "color": "rgb(232,235,238)",
+    "points": 240859
+  },
+  {
+    "id": 18,
+    "name": "door",
+    "position": [
+      -0.13217103481292725,
+      0.0015523402253165841,
+      -0.3219270706176758
+    ],
+    "color": "rgb(196,178,135)",
+    "points": 85122
+  }
+];
+    const container = document.getElementById('viewer');
+    const status = document.getElementById('status');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x111111);
+    const camera = new THREE.PerspectiveCamera(58, window.innerWidth / window.innerHeight, 0.01, 100);
+    camera.position.set(0.0, -1.2, 1.0);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.target.set(0, 0, -0.7);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 1.0));
+    const axes = new THREE.AxesHelper(0.25);
+    scene.add(axes);
+
+    const labelEls = [];
+    const legend = document.getElementById('legend');
+    legend.innerHTML = '<b>Legend</b>';
+    for (const item of labels) {
+      const row = document.createElement('div');
+      row.className = 'row';
+      row.innerHTML = `<span class="swatch" style="background:${item.color}"></span><span>${item.name}</span><span>${(item.points/1000).toFixed(0)}k</span>`;
+      legend.appendChild(row);
+
+      const el = document.createElement('div');
+      el.className = 'label';
+      el.textContent = item.name;
+      el.style.background = item.color;
+      document.body.appendChild(el);
+      labelEls.push({ el, position: new THREE.Vector3(...item.position) });
+    }
+
+    new PLYLoader().load('semantic_pointcloud.ply', geometry => {
+      geometry.computeBoundingSphere();
+      const material = new THREE.PointsMaterial({ size: 2.0, sizeAttenuation: false, vertexColors: true });
+      const points = new THREE.Points(geometry, material);
+      scene.add(points);
+      status.textContent = `Loaded ${geometry.attributes.position.count.toLocaleString()} semantic points`;
+      if (geometry.boundingSphere) {
+        controls.target.copy(geometry.boundingSphere.center);
+        const radius = Math.max(geometry.boundingSphere.radius, 0.4);
+        camera.position.copy(geometry.boundingSphere.center).add(new THREE.Vector3(0.0, -radius * 1.8, radius * 0.8));
+        camera.near = Math.max(radius / 1000, 0.001);
+        camera.far = Math.max(radius * 20, 10);
+        camera.updateProjectionMatrix();
+        controls.update();
+      }
+    }, undefined, error => {
+      status.textContent = `Point cloud failed to load: ${error.message || error}`;
+      status.style.color = '#ff9b9b';
+    });
+
+    function updateLabels() {
+      for (const item of labelEls) {
+        const p = item.position.clone().project(camera);
+        const visible = p.z > -1 && p.z < 1;
+        item.el.style.display = visible ? 'block' : 'none';
+        item.el.style.left = `${(p.x * 0.5 + 0.5) * window.innerWidth}px`;
+        item.el.style.top = `${(-p.y * 0.5 + 0.5) * window.innerHeight}px`;
+      }
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+      updateLabels();
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>

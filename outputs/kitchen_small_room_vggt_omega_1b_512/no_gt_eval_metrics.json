@@ -1,0 +1,95 @@
+{
+  "multi_view": {
+    "attempted_projections": 340500,
+    "valid_projected_depths": 113185,
+    "valid_projection_ratio": 0.33240822320117475,
+    "depth_rel_median": 0.006733030642244711,
+    "depth_rel_p90": 0.03421851836376711,
+    "depth_rel_under_5pct": 0.9281706939965543,
+    "depth_rel_under_10pct": 0.9512126165127888,
+    "color_l1_median_visible": 0.03529411554336548,
+    "color_l1_p90_visible": 0.128104567527771
+  },
+  "feature_reprojection": {
+    "pairs_evaluated": 23,
+    "matches_evaluated": 5253,
+    "sampson_px_median": 0.7379944995197325,
+    "sampson_px_p90": 1.9834066185154793,
+    "sampson_px_under_2": 0.9025318865410242,
+    "sampson_px_under_5": 0.9980963259090044
+  },
+  "plane_sanity": {
+    "planes_found": 5,
+    "scene_diag_world_units": 2.1984283924102783,
+    "plane_distance_threshold_world_units": 0.021984283924102784,
+    "plane_residual_median_world_units": 0.005262174474672213,
+    "plane_residual_median_pct_scene_diag": 0.002393607402833327,
+    "orthogonality_angle_residual_median_deg": 5.909379453152136,
+    "planes": [
+      {
+        "inlier_count": 69132,
+        "residual_mean": 0.0105004063768525,
+        "residual_median": 0.010346446589098099,
+        "normal": [
+          0.9543829528103619,
+          -0.21378162613216223,
+          0.20844806478656275
+        ]
+      },
+      {
+        "inlier_count": 50524,
+        "residual_mean": 0.003952611534218379,
+        "residual_median": 0.0026107318142272185,
+        "normal": [
+          0.9738016343734065,
+          -0.017461086261735034,
+          0.2267277825019306
+        ]
+      },
+      {
+        "inlier_count": 38048,
+        "residual_mean": 0.006378171184029898,
+        "residual_median": 0.005262174474672213,
+        "normal": [
+          0.9700735957024037,
+          -0.03143836311121655,
+          0.2407672075800543
+        ]
+      },
+      {
+        "inlier_count": 26672,
+        "residual_mean": 0.008652901644569345,
+        "residual_median": 0.007907630948420202,
+        "normal": [
+          0.8763144209675271,
+          -0.4628119459939164,
+          0.1337091554444644
+        ]
+      },
+      {
+        "inlier_count": 20037,
+        "residual_mean": 0.0037489293880267308,
+        "residual_median": 0.0024250295078478423,
+        "normal": [
+          -0.23087688783955776,
+          -0.141095053506943,
+          0.9626983164716729
+        ]
+      }
+    ]
+  },
+  "quality_gates": {
+    "multi_view_depth": "green",
+    "feature_reprojection": "green",
+    "plane_residual": "green",
+    "manhattan_orthogonality": "yellow",
+    "coherence_score_0_to_1": 0.875
+  },
+  "thresholds": {
+    "multi_view_depth_rel_median": "green < 0.05, yellow < 0.10",
+    "feature_sampson_px_median": "green < 2 px, yellow < 5 px",
+    "plane_residual_pct_scene_diag": "green < 1%, yellow < 2.5%",
+    "orthogonality_angle_residual_median": "green < 5 deg, yellow < 10 deg",
+    "note": "These are engineering gates, not universal benchmarks; thresholds should be tightened/loosened by scene scale and capture difficulty."
+  }
+}

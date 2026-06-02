@@ -1,0 +1,456 @@
+{
+  "meters_per_scene_unit": 2.9907245914989264,
+  "frame": "gravity-aligned: x=along camera travel, y=lateral, z=height above floor; metres after scale",
+  "objects": [
+    {
+      "name": "wall",
+      "semantic_id": 1,
+      "kind": "surface",
+      "num_points": 250000,
+      "cluster_points": 250000,
+      "centroid_m": [
+        0.07,
+        1.612,
+        1.337
+      ],
+      "size_m": {
+        "x": 1.782,
+        "y": 3.061,
+        "height": 1.759
+      },
+      "base_height_above_floor_m": 0.59,
+      "footprint_m": [
+        -0.78,
+        0.863,
+        1.002,
+        3.924
+      ],
+      "source_depth_conf_median": 13.92
+    },
+    {
+      "name": "bulletin board",
+      "semantic_id": 2,
+      "kind": "surface",
+      "num_points": 250000,
+      "cluster_points": 250000,
+      "centroid_m": [
+        0.777,
+        2.569,
+        1.513
+      ],
+      "size_m": {
+        "x": 1.724,
+        "y": 2.967,
+        "height": 2.315
+      },
+      "base_height_above_floor_m": 0.097,
+      "footprint_m": [
+        -0.727,
+        0.971,
+        0.997,
+        3.937
+      ],
+      "source_depth_conf_median": 13.01
+    },
+    {
+      "name": "cupboard",
+      "semantic_id": 3,
+      "kind": "object",
+      "num_points": 250000,
+      "cluster_points": 6316,
+      "centroid_m": [
+        -0.462,
+        2.077,
+        1.646
+      ],
+      "size_m": {
+        "x": 0.163,
+        "y": 1.099,
+        "height": 0.66
+      },
+      "base_height_above_floor_m": 1.358,
+      "footprint_m": [
+        -0.597,
+        1.356,
+        -0.434,
+        2.455
+      ],
+      "source_depth_conf_median": 13.47
+    },
+    {
+      "name": "coffee machine",
+      "semantic_id": 10,
+      "kind": "object",
+      "num_points": 250000,
+      "cluster_points": 9945,
+      "centroid_m": [
+        -0.161,
+        2.476,
+        0.525
+      ],
+      "size_m": {
+        "x": 0.064,
+        "y": 0.56,
+        "height": 0.78
+      },
+      "base_height_above_floor_m": 0.038,
+      "footprint_m": [
+        -0.209,
+        2.142,
+        -0.145,
+        2.702
+      ],
+      "source_depth_conf_median": 14.42
+    },
+    {
+      "name": "countertop",
+      "semantic_id": 15,
+      "kind": "surface",
+      "num_points": 250000,
+      "cluster_points": 250000,
+      "centroid_m": [
+        -0.236,
+        2.734,
+        0.9
+      ],
+      "size_m": {
+        "x": 1.388,
+        "y": 2.621,
+        "height": 0.93
+      },
+      "base_height_above_floor_m": 0.006,
+      "footprint_m": [
+        -0.698,
+        1.18,
+        0.69,
+        3.801
+      ],
+      "source_depth_conf_median": 15.59
+    },
+    {
+      "name": "ceiling",
+      "semantic_id": 17,
+      "kind": "surface",
+      "num_points": 240859,
+      "cluster_points": 240859,
+      "centroid_m": [
+        0.16,
+        2.252,
+        2.525
+      ],
+      "size_m": {
+        "x": 1.693,
+        "y": 2.718,
+        "height": 0.707
+      },
+      "base_height_above_floor_m": 1.85,
+      "footprint_m": [
+        -0.681,
+        1.016,
+        1.012,
+        3.734
+      ],
+      "source_depth_conf_median": 12.42
+    },
+    {
+      "name": "dust bin",
+      "semantic_id": 13,
+      "kind": "object",
+      "num_points": 212326,
+      "cluster_points": 10515,
+      "centroid_m": [
+        -0.208,
+        2.829,
+        0.423
+      ],
+      "size_m": {
+        "x": 0.321,
+        "y": 0.198,
+        "height": 0.432
+      },
+      "base_height_above_floor_m": 0.06,
+      "footprint_m": [
+        -0.487,
+        2.726,
+        -0.167,
+        2.925
+      ],
+      "source_depth_conf_median": 14.78
+    },
+    {
+      "name": "floor",
+      "semantic_id": 16,
+      "kind": "surface",
+      "num_points": 206627,
+      "cluster_points": 206627,
+      "centroid_m": [
+        -0.088,
+        2.657,
+        0.0
+      ],
+      "size_m": {
+        "x": 1.53,
+        "y": 2.156,
+        "height": 0.028
+      },
+      "base_height_above_floor_m": -0.012,
+      "footprint_m": [
+        -0.695,
+        1.234,
+        0.835,
+        3.39
+      ],
+      "source_depth_conf_median": 12.78
+    },
+    {
+      "name": "tea box",
+      "semantic_id": 5,
+      "kind": "object",
+      "num_points": 123502,
+      "cluster_points": 8755,
+      "centroid_m": [
+        -0.486,
+        3.695,
+        1.019
+      ],
+      "size_m": {
+        "x": 0.363,
+        "y": 0.337,
+        "height": 0.208
+      },
+      "base_height_above_floor_m": 0.92,
+      "footprint_m": [
+        -0.658,
+        3.463,
+        -0.295,
+        3.799
+      ],
+      "source_depth_conf_median": 13.68
+    },
+    {
+      "name": "door",
+      "semantic_id": 18,
+      "kind": "surface",
+      "num_points": 85122,
+      "cluster_points": 85122,
+      "centroid_m": [
+        -0.172,
+        0.994,
+        1.204
+      ],
+      "size_m": {
+        "x": 1.611,
+        "y": 3.062,
+        "height": 1.837
+      },
+      "base_height_above_floor_m": 0.57,
+      "footprint_m": [
+        -0.603,
+        0.876,
+        1.008,
+        3.938
+      ],
+      "source_depth_conf_median": 11.6
+    },
+    {
+      "name": "kettle",
+      "semantic_id": 4,
+      "kind": "object",
+      "num_points": 78480,
+      "cluster_points": 9606,
+      "centroid_m": [
+        -0.464,
+        3.479,
+        0.373
+      ],
+      "size_m": {
+        "x": 0.33,
+        "y": 0.347,
+        "height": 0.125
+      },
+      "base_height_above_floor_m": 0.302,
+      "footprint_m": [
+        -0.657,
+        3.335,
+        -0.328,
+        3.682
+      ],
+      "source_depth_conf_median": 13.84
+    },
+    {
+      "name": "sanitizer",
+      "semantic_id": 6,
+      "kind": "object",
+      "num_points": 60120,
+      "cluster_points": 12488,
+      "centroid_m": [
+        -0.529,
+        1.173,
+        1.538
+      ],
+      "size_m": {
+        "x": 0.075,
+        "y": 0.182,
+        "height": 0.268
+      },
+      "base_height_above_floor_m": 1.409,
+      "footprint_m": [
+        -0.594,
+        1.073,
+        -0.519,
+        1.255
+      ],
+      "source_depth_conf_median": 12.48
+    },
+    {
+      "name": "heater",
+      "semantic_id": 12,
+      "kind": "object",
+      "num_points": 42192,
+      "cluster_points": 13805,
+      "centroid_m": [
+        0.91,
+        2.023,
+        0.762
+      ],
+      "size_m": {
+        "x": 0.067,
+        "y": 0.73,
+        "height": 0.53
+      },
+      "base_height_above_floor_m": 0.358,
+      "footprint_m": [
+        0.893,
+        1.903,
+        0.96,
+        2.632
+      ],
+      "source_depth_conf_median": 10.22
+    },
+    {
+      "name": "microwave",
+      "semantic_id": 11,
+      "kind": "object",
+      "num_points": 35111,
+      "cluster_points": 26005,
+      "centroid_m": [
+        -0.34,
+        3.04,
+        1.075
+      ],
+      "size_m": {
+        "x": 0.282,
+        "y": 0.423,
+        "height": 0.225
+      },
+      "base_height_above_floor_m": 0.927,
+      "footprint_m": [
+        -0.589,
+        2.796,
+        -0.307,
+        3.22
+      ],
+      "source_depth_conf_median": 14.02
+    },
+    {
+      "name": "tissue box",
+      "semantic_id": 7,
+      "kind": "object",
+      "num_points": 21812,
+      "cluster_points": 9993,
+      "centroid_m": [
+        -0.56,
+        1.151,
+        1.23
+      ],
+      "size_m": {
+        "x": 0.096,
+        "y": 0.12,
+        "height": 0.531
+      },
+      "base_height_above_floor_m": 1.079,
+      "footprint_m": [
+        -0.61,
+        1.064,
+        -0.513,
+        1.184
+      ],
+      "source_depth_conf_median": 11.97
+    },
+    {
+      "name": "tap",
+      "semantic_id": 8,
+      "kind": "object",
+      "num_points": 15406,
+      "cluster_points": 6645,
+      "centroid_m": [
+        -0.541,
+        1.225,
+        0.924
+      ],
+      "size_m": {
+        "x": 0.323,
+        "y": 0.153,
+        "height": 0.028
+      },
+      "base_height_above_floor_m": 0.908,
+      "footprint_m": [
+        -0.589,
+        1.096,
+        -0.266,
+        1.249
+      ],
+      "source_depth_conf_median": 13.86
+    },
+    {
+      "name": "sink",
+      "semantic_id": 14,
+      "kind": "object",
+      "num_points": 6276,
+      "cluster_points": 2548,
+      "centroid_m": [
+        0.184,
+        3.767,
+        0.891
+      ],
+      "size_m": {
+        "x": 0.397,
+        "y": 0.431,
+        "height": 0.059
+      },
+      "base_height_above_floor_m": 0.852,
+      "footprint_m": [
+        0.01,
+        3.437,
+        0.407,
+        3.868
+      ],
+      "source_depth_conf_median": 9.98
+    },
+    {
+      "name": "cleaning solution",
+      "semantic_id": 9,
+      "kind": "object",
+      "num_points": 237,
+      "cluster_points": 212,
+      "centroid_m": [
+        -0.131,
+        3.655,
+        0.925
+      ],
+      "size_m": {
+        "x": 0.179,
+        "y": 0.256,
+        "height": 0.023
+      },
+      "base_height_above_floor_m": 0.918,
+      "footprint_m": [
+        -0.213,
+        3.547,
+        -0.035,
+        3.802
+      ],
+      "source_depth_conf_median": 5.61
+    }
+  ]
+}

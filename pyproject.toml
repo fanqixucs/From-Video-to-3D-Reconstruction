@@ -1,0 +1,27 @@
+[project]
+name = "video-to-3d"
+version = "0.1.0"
+description = "Video-to-3D indoor reconstruction wrapper around VGGT-Omega."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy<2",
+  "Pillow",
+  "opencv-python",
+  "einops",
+  "safetensors",
+  "torch>=2.3",
+  "torchvision>=0.18",
+  "trimesh",
+  "matplotlib",
+  "scipy",
+  "open3d",
+  "transformers",
+]
+
+[project.scripts]
+video-to-3d = "video_to_3d.cli:main"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"

@@ -1,0 +1,56 @@
+{
+  "coordinate_frame": "gravity-aligned: x=along camera travel, y=lateral, z=height above floor; metres after scale",
+  "gravity_up_in_scene_frame": [
+    0.0178,
+    0.9881,
+    0.1529
+  ],
+  "scale_anchor": {
+    "primary_anchor": "floor->counter height = 0.90 m (standard worktop)",
+    "floor_to_counter_scene_units": 0.3009,
+    "meters_per_scene_unit": 2.9907245914989264,
+    "cross_check_cupboard": {
+      "anchor": "user-reported cupboard wall-cabinet height = 0.70 m",
+      "wall_cabinet_band_extent_scene_units": 0.3769,
+      "wall_cabinet_band_under_primary_scale_m": 1.127,
+      "meters_per_scene_unit_if_band_is_0p70m": 1.857,
+      "agreement_ratio_vs_primary": 0.621,
+      "note": "band measures >0.7 m under the primary scale because the semantic class merges base+wall cabinets"
+    }
+  },
+  "room_dimensions_m": {
+    "footprint_x": 1.77,
+    "footprint_y": 3.05,
+    "floor_to_ceiling": 2.54
+  },
+  "gravity_aligned_plane_sanity": {
+    "floor": {
+      "tilt_from_horizontal_deg": 0.001,
+      "residual_median_mm": 4.1,
+      "inliers": 206393
+    },
+    "ceiling": {
+      "tilt_from_horizontal_deg": 1.26,
+      "residual_median_mm": 4.7,
+      "inliers": 191588
+    },
+    "countertop": {
+      "tilt_from_horizontal_deg": 0.448,
+      "residual_median_mm": 5.4,
+      "inliers": 207776
+    },
+    "wall": {
+      "tilt_from_vertical_deg": 0.45,
+      "dominant_wall_residual_median_mm": 3.1,
+      "inliers": 93258
+    },
+    "floor_ceiling_parallel_residual_deg": 1.2590000000000001,
+    "floor_counter_parallel_residual_deg": 0.447,
+    "wall_floor_perpendicular_residual_deg": 0.4510000000000076
+  },
+  "num_object_anchors": 18,
+  "artifacts": {
+    "object_anchors": "object_anchors.json",
+    "bev": "bev_traversability.png"
+  }
+}
