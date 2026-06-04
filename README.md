@@ -1,7 +1,5 @@
 # Phone2Room3D — Video to 3D Reconstruction
 
-[![CI](https://github.com/fanqixucs/Phone2Room3D/actions/workflows/ci.yml/badge.svg)](https://github.com/fanqixucs/Phone2Room3D/actions/workflows/ci.yml)
-
 This project reconstructs a small indoor 3D scene from a single hand-held **phone video** and
 adds **open-vocabulary semantic understanding** on top of the geometry. Geometry comes from a
 single feed-forward pass of **VGGT-Omega-1B-512**; everything else in this repository is the
